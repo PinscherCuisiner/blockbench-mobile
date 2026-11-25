@@ -1,0 +1,39 @@
+/* Extra touch / phone polish, loaded after the regular stylesheets.
+   Everything is scoped to body.is_touch / body.is_mobile, so desktop is unaffected. */
+@layer base {
+	html {
+		/* Stops Chrome's pull-to-refresh and the elastic overscroll from reloading
+		   the editor when you drag down in the viewport or a panel. */
+		overscroll-behavior: none;
+	}
+	body.is_touch {
+		overscroll-behavior: none;
+		-webkit-tap-highlight-color: transparent;
+		-webkit-touch-callout: none;
+		-webkit-text-size-adjust: 100%;
+		text-size-adjust: 100%;
+	}
+	body.is_mobile {
+		box-sizing: border-box;
+		/* Notch / rounded corners / gesture bar when running as an installed app */
+		padding-left: env(safe-area-inset-left, 0px);
+		padding-right: env(safe-area-inset-right, 0px);
+		padding-bottom: env(safe-area-inset-bottom, 0px);
+	}
+	/* Canvases handle their own gestures (orbit, pan, pinch-zoom) */
+	body.is_touch canvas {
+		touch-action: none;
+	}
+	/* Inputs must stay >= 16px or Android/iOS browsers zoom the page on focus */
+	body.is_mobile input[type=text],
+	body.is_mobile input[type=number],
+	body.is_mobile input[type=search],
+	body.is_mobile textarea,
+	body.is_mobile select {
+		font-size: max(16px, 1em);
+	}
+	/* The "get the desktop app" banner makes no sense on a phone */
+	body.is_mobile #web_download_button {
+		display: none !important;
+	}
+}
